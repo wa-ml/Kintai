@@ -18,3 +18,31 @@ services:
     stdin_open: true
     volumes:
       - "./backend:/backend"
+  mysql:
+    image: mysql:8.0.27
+    platform: linux/amd64
+    container_name: db_container
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: kintai-db
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+    - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=mysql
+    depends_on:
+      - mysql
+    ports:
+      - "1234:80"
+volumes:
+  db-data:
