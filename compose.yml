@@ -1,0 +1,10 @@
+services:
+  angular_app:
+    build: ./frontend
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./frontend:/frontend"
+    tty: true
+    stdin_open: true
+    command: bash /frontend/angular_start.sh
