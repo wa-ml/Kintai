@@ -7,5 +7,7 @@ up:
 front:
 	docker compose up -d angular_app
 
+backend:
+	docker compose up -d go_app
 down:
 	docker compose down

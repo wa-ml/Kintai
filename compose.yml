@@ -1,6 +1,7 @@
 services:
   angular_app:
     build: ./frontend
+    container_name: angular_container
     ports:
       - "4200:4200"
     volumes:
@@ -8,3 +9,12 @@ services:
     tty: true
     stdin_open: true
     command: bash /frontend/angular_start.sh
+  go_app:
+    build: ./backend
+    container_name: go_container
+    ports:
+      - "8080:8080"
+    tty: true
+    stdin_open: true
+    volumes:
+      - "./backend:/backend"
