@@ -5,9 +5,10 @@ up:
 	docker compose up -d
 
 front:
-	docker compose up -d angular_app
+	docker compose up angular_app
 
 backend:
-	docker compose up -d go_app
+	docker compose up go_app
+
 down:
 	docker compose down
