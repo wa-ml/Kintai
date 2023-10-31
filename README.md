@@ -1,6 +1,9 @@
 # Kintai
 情報ネットワーク特論のグループワーク課題
 
+## ブランチ運用
+念のため`develop`ブランチを作るのでそちらにpull requestをして随時`main`に統合
+
 ## 環境構築
 ```
 make build
