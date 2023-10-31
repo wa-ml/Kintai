@@ -7,7 +7,10 @@ up:
 front:
 	docker compose up angular_app
 
-backend:
+back:
+	docker compose up go_app mysql phpmyadmin
+
+go:
 	docker compose up go_app
 
 down:
