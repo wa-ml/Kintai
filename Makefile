@@ -5,7 +5,13 @@ up:
 	docker compose up -d
 
 front:
-	docker compose up -d angular_app
+	docker compose up angular_app
+
+back:
+	docker compose up go_app mysql phpmyadmin
+
+go:
+	docker compose up go_app
 
 down:
 	docker compose down
