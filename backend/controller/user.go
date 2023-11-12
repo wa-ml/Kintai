@@ -30,9 +30,9 @@ func CreateUser(c echo.Context) error {
 }
 
 func GetUsers(c echo.Context) error {
-	users := []model.User{}
-	model.DB.Find(&users)
-	return c.JSON(http.StatusOK, users)
+	user := model.User{}
+	model.DB.Preload("Team").First(&user, 1)
+	return c.JSON(http.StatusOK, user)
 }
 
 func GetUser(c echo.Context) error {
