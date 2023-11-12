@@ -11,7 +11,7 @@ func main() {
 	e := echo.New()
 	db, _ := model.DB.DB()
 	defer db.Close()
-
+	e.POST("/login", controller.Login)
 	e.GET("/users", controller.GetUsers)
 	e.GET("/users/:id", controller.GetUser)
 	e.POST("/users", controller.CreateUser)

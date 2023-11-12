@@ -36,14 +36,12 @@ func GetUsers(c echo.Context) error {
 }
 
 func GetUser(c echo.Context) error {
-	fmt.Println("hello")
-	fmt.Println("hey")
-	fmt.Println(c)
 	user := model.User{}
-	if err := c.Bind(&user); err != nil {
-		return err
+	fmt.Println(c.Param("id"))
+	result := model.DB.First(&user, c.Param("id"))
+	if result.Error != nil {
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "User not found"})
 	}
-	model.DB.Take(&user)
 	return c.JSON(http.StatusOK, user)
 }
 
