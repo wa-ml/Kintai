@@ -1,6 +1,7 @@
 package model
 
 import (
+	"backend/crypto"
 	"log"
 	"time"
 
@@ -29,4 +30,23 @@ func init() {
 	}
 
 	DB.AutoMigrate(&User{})
+
+	//初期データ投入
+	password, _ := crypto.PasswordEncrypt("hogehoge")
+
+	admin := User{
+		Name:     "Admin User",
+		Email:    "admin@example.com",
+		Password: password,
+		IsAdmin:  true,
+	}
+	DB.FirstOrCreate(&admin, User{Email: admin.Email})
+
+	teamMembers := []User{
+		{Name: "User One", Email: "user1@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "User Two", Email: "user2@example.com", Password: password, AdminID: &admin.ID},
+	}
+	for _, member := range teamMembers {
+		DB.FirstOrCreate(&member, User{Email: member.Email})
+	}
 }

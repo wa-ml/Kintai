@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -18,12 +17,19 @@ type JwtCustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-func Login(c echo.Context) error {
-	email := c.FormValue("email")
-	password := c.FormValue("password")
+type loginData struct {
+	Email    string
+	Password string
+}
 
-	fmt.Println(email)
-	fmt.Println(password)
+func Login(c echo.Context) error {
+	data := loginData{}
+	if err := c.Bind(&data); err != nil {
+		return err
+	}
+
+	email := data.Email
+	password := data.Password
 
 	user := model.User{}
 	result := model.DB.Find(&user, "email = ?", email)
