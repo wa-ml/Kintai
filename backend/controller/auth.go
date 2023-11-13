@@ -19,14 +19,14 @@ type JwtCustomClaims struct {
 }
 
 func Login(c echo.Context) error {
-	studentId := c.FormValue("studentId")
+	email := c.FormValue("email")
 	password := c.FormValue("password")
 
-	fmt.Println(studentId)
+	fmt.Println(email)
 	fmt.Println(password)
 
 	user := model.User{}
-	result := model.DB.Find(&user, "student_id = ?", studentId)
+	result := model.DB.Find(&user, "email = ?", email)
 
 	if result.RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, echo.Map{"message": "User not found"})

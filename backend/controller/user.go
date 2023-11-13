@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"backend/crypto"
@@ -10,11 +9,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// for Admin
 func CreateUser(c echo.Context) error {
+	admin_user := CurrentUser(c)
+	if !admin_user.IsAdmin {
+		return c.String(http.StatusBadRequest, "権限がありません")
+	}
+
 	user := model.User{}
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
+
+	user.AdminID = &admin_user.ID
+	user.IsAdmin = false
 
 	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
 	if encryptErr != nil {
@@ -31,33 +39,37 @@ func CreateUser(c echo.Context) error {
 
 func GetUsers(c echo.Context) error {
 	user := CurrentUser(c)
-	return c.JSON(http.StatusOK, user)
+	if !user.IsAdmin {
+		return c.String(http.StatusBadRequest, "権限がありません")
+	}
+	return c.JSON(http.StatusOK, user.Team)
+}
+
+// for all
+func CheckAdmin(c echo.Context) error {
+	user := CurrentUser(c)
+	return c.JSON(http.StatusOK, user.IsAdmin)
 }
 
 func GetUser(c echo.Context) error {
-	user := model.User{}
-	fmt.Println(c.Param("id"))
-	result := model.DB.First(&user, c.Param("id"))
-	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "User not found"})
-	}
+	user := CurrentUser(c)
 	return c.JSON(http.StatusOK, user)
 }
 
-func UpdateUser(c echo.Context) error {
-	user := model.User{}
-	if err := c.Bind(&user); err != nil {
-		return err
-	}
-	model.DB.Save(&user)
-	return c.JSON(http.StatusOK, user)
-}
+// func UpdateUser(c echo.Context) error {
+// 	user := model.User{}
+// 	if err := c.Bind(&user); err != nil {
+// 		return err
+// 	}
+// 	model.DB.Save(&user)
+// 	return c.JSON(http.StatusOK, user)
+// }
 
-func DeleteUser(c echo.Context) error {
-	user := model.User{}
-	if err := c.Bind(&user); err != nil {
-		return err
-	}
-	model.DB.Delete(&user)
-	return c.JSON(http.StatusOK, user)
-}
+// func DeleteUser(c echo.Context) error {
+// 	user := model.User{}
+// 	if err := c.Bind(&user); err != nil {
+// 		return err
+// 	}
+// 	model.DB.Delete(&user)
+// 	return c.JSON(http.StatusOK, user)
+// }
