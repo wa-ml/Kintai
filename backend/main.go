@@ -32,7 +32,7 @@ func main() {
 	}
 	r.Use(echojwt.WithConfig(config))
 	r.GET("/users", controller.GetUsers)
-	r.POST("/users", controller.CreateUser)
+	r.POST("/user", controller.CreateUser)
 	r.GET("/check", controller.CheckAdmin)
 	r.GET("/user", controller.GetUser)
 	// r.PUT("/users/:id", controller.UpdateUser)
