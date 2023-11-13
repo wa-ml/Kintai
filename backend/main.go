@@ -18,9 +18,10 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.POST("/user", controller.CreateAdminUser)
 	e.POST("/login", controller.Login)
 	/// Restricted group
-	r := e.Group("/restricted")
+	r := e.Group("/auth")
 
 	// Configure middleware with the custom claims type
 	config := echojwt.Config{

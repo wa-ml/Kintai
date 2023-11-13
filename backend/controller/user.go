@@ -9,7 +9,29 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// for Admin
+// For Admin
+func CreateAdminUser(c echo.Context) error {
+	user := model.User{}
+	if err := c.Bind(&user); err != nil {
+		return err
+	}
+
+	user.IsAdmin = true
+	user.AdminID = nil
+
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
+	if encryptErr != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
+	}
+	user.Password = hashedPassword
+
+	if err := model.DB.Create(&user).Error; err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusCreated, user)
+}
+
 func CreateUser(c echo.Context) error {
 	admin_user := CurrentUser(c)
 	if !admin_user.IsAdmin {
@@ -45,7 +67,7 @@ func GetUsers(c echo.Context) error {
 	return c.JSON(http.StatusOK, user.Team)
 }
 
-// for all
+// For ALL
 func CheckAdmin(c echo.Context) error {
 	user := CurrentUser(c)
 	return c.JSON(http.StatusOK, user.IsAdmin)
