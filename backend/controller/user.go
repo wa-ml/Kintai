@@ -30,8 +30,7 @@ func CreateUser(c echo.Context) error {
 }
 
 func GetUsers(c echo.Context) error {
-	user := model.User{}
-	model.DB.Preload("Team").First(&user, 1)
+	user := CurrentUser(c)
 	return c.JSON(http.StatusOK, user)
 }
 

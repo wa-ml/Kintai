@@ -12,9 +12,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type jwtCustomClaims struct {
-	Name  string `json:"name"`
-	Admin bool   `json:"admin"`
+type JwtCustomClaims struct {
+	ID    uint `json:"id"`
+	Admin bool `json:"admin"`
 	jwt.RegisteredClaims
 }
 
@@ -36,9 +36,9 @@ func Login(c echo.Context) error {
 	}
 
 	// Set custom claims
-	claims := &jwtCustomClaims{
-		"Jon Snow",
-		true,
+	claims := &JwtCustomClaims{
+		user.ID,
+		user.IsAdmin,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
 		},
@@ -58,13 +58,11 @@ func Login(c echo.Context) error {
 	})
 }
 
-func accessible(c echo.Context) error {
-	return c.String(http.StatusOK, "Accessible")
-}
-
-func restricted(c echo.Context) error {
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*jwtCustomClaims)
-	name := claims.Name
-	return c.String(http.StatusOK, "Welcome "+name+"!")
+func CurrentUser(c echo.Context) model.User {
+	token := c.Get("user").(*jwt.Token)
+	claims := token.Claims.(*JwtCustomClaims)
+	id := claims.ID
+	user := model.User{}
+	model.DB.Preload("Team").First(&user, id)
+	return user
 }
