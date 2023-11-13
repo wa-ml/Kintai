@@ -1,10 +1,13 @@
-<div class="container">
+<div class="container list-group list-group-light">
   <h1>ユーザー一覧</h1>
-  <div class="user-list">
-  <mat-selection-list role="list">
-    <div *ngFor="let reporter of reporters" class="mb-3">
-      <mat-list-item role="listitem">{{ reporter.name }}</mat-list-item>
+  <div *ngFor="let reporter of reporters" class="mb-3">
+    <div class="card" style="width: 90%;">
+      <div class="card-body">
+        <h5 class="card-title">{{ reporter.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">大学院生</h6>
+        <p class="card-text">今月は毎日来ています。</p>
+        <a href="#" class="card-link">詳細へ</a>
+      </div>
     </div>
-  </mat-selection-list>
   </div>
 </div>

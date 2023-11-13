@@ -6,4 +6,4 @@ cd frontend
 npm install
 
 # 起動
-ng serve --host=0.0.0.0 --poll=1000
+ng serve --host=0.0.0.0 --poll=2000
