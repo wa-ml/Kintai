@@ -35,7 +35,7 @@ func main() {
 	r.POST("/user", controller.CreateUser)
 	r.GET("/check", controller.CheckAdmin)
 	r.GET("/user", controller.GetUser)
-	// r.PUT("/users/:id", controller.UpdateUser)
+	r.PUT("/user", controller.UpdateUser)
 	// r.DELETE("/users/:id", controller.DeleteUser)
 
 	e.Logger.Fatal(e.Start(":8080"))

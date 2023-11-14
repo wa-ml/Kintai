@@ -14,11 +14,12 @@ var (
 	password = "password"
 	from     = "kintai@example.com"
 	subject  = "ログインしてください"
+	loginUrl = "http://localhost:4200/login"
 )
 
 func SendEmail(email string, initPassword string) {
 	receiver := []string{email}
-	body := fmt.Sprintf("下記のリンクからログインしてください。\n\nhttp://localhost:4200\n\nメールアドレス： %s\n初期パスワード： %s", email, initPassword)
+	body := fmt.Sprintf("下記のリンクからログインしてください。\n\n%s\n\nメールアドレス： %s\n初期パスワード： %s", loginUrl, email, initPassword)
 	smtpServer := fmt.Sprintf("%s:%d", hostname, port)
 	auth := smtp.CRAMMD5Auth(username, password)
 	msg := []byte(fmt.Sprintf("To: %s\nSubject: %s\n\n%s", strings.Join(receiver, ","), subject, body))
