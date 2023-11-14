@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"backend/crypto"
+	"backend/mail"
 	"backend/model"
 
 	"github.com/labstack/echo/v4"
@@ -18,8 +19,9 @@ func CreateAdminUser(c echo.Context) error {
 
 	user.IsAdmin = true
 	user.AdminID = nil
+	initPassword := user.Password
 
-	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(initPassword)
 	if encryptErr != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
 	}
@@ -45,8 +47,9 @@ func CreateUser(c echo.Context) error {
 
 	user.AdminID = &admin_user.ID
 	user.IsAdmin = false
+	initPassword := user.Password
 
-	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(initPassword)
 	if encryptErr != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
 	}
@@ -55,6 +58,8 @@ func CreateUser(c echo.Context) error {
 	if err := model.DB.Create(&user).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	mail.SendEmail(user.Email, initPassword)
 
 	return c.JSON(http.StatusCreated, user)
 }
