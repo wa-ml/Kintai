@@ -4,10 +4,15 @@ import (
 	"net/http"
 
 	"backend/crypto"
+	"backend/mail"
 	"backend/model"
 
 	"github.com/labstack/echo/v4"
 )
+
+type PasswordUpdateRequest struct {
+	Password string
+}
 
 // For Admin
 func CreateAdminUser(c echo.Context) error {
@@ -18,8 +23,9 @@ func CreateAdminUser(c echo.Context) error {
 
 	user.IsAdmin = true
 	user.AdminID = nil
+	initPassword := user.Password
 
-	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(initPassword)
 	if encryptErr != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
 	}
@@ -45,8 +51,9 @@ func CreateUser(c echo.Context) error {
 
 	user.AdminID = &admin_user.ID
 	user.IsAdmin = false
+	initPassword := user.Password
 
-	hashedPassword, encryptErr := crypto.PasswordEncrypt(user.Password)
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(initPassword)
 	if encryptErr != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
 	}
@@ -55,6 +62,8 @@ func CreateUser(c echo.Context) error {
 	if err := model.DB.Create(&user).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	mail.SendEmail(user.Email, initPassword)
 
 	return c.JSON(http.StatusCreated, user)
 }
@@ -78,14 +87,25 @@ func GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-// func UpdateUser(c echo.Context) error {
-// 	user := model.User{}
-// 	if err := c.Bind(&user); err != nil {
-// 		return err
-// 	}
-// 	model.DB.Save(&user)
-// 	return c.JSON(http.StatusOK, user)
-// }
+func UpdateUser(c echo.Context) error {
+	user := CurrentUser(c)
+
+	var passwordData PasswordUpdateRequest
+	if err := c.Bind(&passwordData); err != nil {
+		return err
+	}
+
+	hashedPassword, encryptErr := crypto.PasswordEncrypt(passwordData.Password)
+	if encryptErr != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to hash the password")
+	}
+
+	result := model.DB.Model(&model.User{}).Where("id = ?", user.ID).Update("password", hashedPassword)
+	if result.Error != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Internal server error")
+	}
+	return c.NoContent(http.StatusOK)
+}
 
 // func DeleteUser(c echo.Context) error {
 // 	user := model.User{}
