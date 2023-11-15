@@ -44,6 +44,7 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { UserRegisterComponent } from './pages/admin/user-register/user-register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterCompleteComponent } from './pages/admin/register-complete/register-complete.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { LoginComponent } from './pages/login/login.component';
     HeaderComponent,
     UserListComponent,
     SidebarComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterCompleteComponent
   ],
   imports: [
     BrowserModule,
