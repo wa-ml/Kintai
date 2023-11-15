@@ -9,6 +9,9 @@ import { Reporter } from 'src/app/types/reporter';
 })
 export class UserListComponent implements OnInit {
   reporters: Reporter[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+
   constructor(private reporterService: ReporterService) {}
 
   ngOnInit(): void {
@@ -19,5 +22,24 @@ export class UserListComponent implements OnInit {
     this.reporterService.getReporters().subscribe((reporters) => {
       this.reporters = reporters;
     });
+  }
+
+  getPageItems(): Reporter[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.reporters.slice(startIndex, endIndex);
+  }
+
+  onPageChange(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.reporters.length / this.itemsPerPage);
+  }
+
+  getPageNumbers(): number[] {
+    const pageCount = this.totalPages();
+    return Array.from({ length: pageCount }, (_, index) => index + 1);
   }
 }
