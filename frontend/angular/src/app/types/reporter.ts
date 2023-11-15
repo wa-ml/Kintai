@@ -1,4 +1,5 @@
 export interface Reporter {
-  id: number;
-  name: string;
+  ID: number;
+  Name: string;
+  Email: string;
 }

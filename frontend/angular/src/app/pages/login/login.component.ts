@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   private loginUrl = 'http://localhost:8080/login';
+  private admincheckUrl = 'http://localhost:8080/auth/check';
 
   loginData = {
     email: "",
-    password: ""
+    password: "",
+    errMessage: ""
   }
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -23,8 +25,25 @@ export class LoginComponent {
     this.http.post<any>(this.loginUrl, { "Email": email, "Password": password})
     .subscribe((response) => {
       const token = response.token;
-      console.log(token);
-      
-    });
+      localStorage.setItem('token', token);
+      this.http.get<any>(this.admincheckUrl, {
+        headers: new HttpHeaders().set("Authorization", `Bearer ${localStorage.getItem('token')}`)
+      }).subscribe((response) => {
+        // 管理者側のログイン
+        if (response) {
+          this.router.navigate(['/admin/reporters']);
+        // 報告者側のログイン
+        } else {
+          console.log("報告者側の作成しろ！！")
+        }
+      },(err) => {
+        this.loginData.errMessage = "サーバ側のエラーが発生しました。"
+      })
+    },
+    (err) => {
+      this.loginData.errMessage = "Emailまたはパスワードが異なります。"
+      console.log('Login failed', err);
+    }
+    );
   }
 }

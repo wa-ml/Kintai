@@ -3,8 +3,9 @@
   <div *ngFor="let reporter of reporters" class="mb-3">
     <div class="card" style="width: 90%;">
       <div class="card-body">
-        <h5 class="card-title">{{ reporter.name }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">大学院生</h6>
+        <h3 class="card-title">{{ reporter.Name }}</h3>
+        <h4 class="card-subtitle">Email: {{ reporter.Email }}</h4>
+        <h5 class="card-subtitle mb-2 text-muted">大学院生</h5>
         <p class="card-text">今月は毎日来ています。</p>
         <a href="#" class="card-link">詳細へ</a>
       </div>
