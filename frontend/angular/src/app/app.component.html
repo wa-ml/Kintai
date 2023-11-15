@@ -2,14 +2,17 @@
   <a [routerLink]="['/']">
   </a>
   <section class="content">
-    <app-header />
-    <div class="row">
-      <div class="col-2">
-        <app-sidebar />
+    <ng-container *ngIf="!isLoginPage()">
+      <app-header />
+      <div class="row">
+        <div class="col-2">
+          <app-sidebar />
+        </div>
+        <div class="col-10">
+          <router-outlet />
+        </div>
       </div>
-      <div class="col-10">
-        <router-outlet />
-      </div>
-    </div> 
+    </ng-container>
+    <router-outlet *ngIf="isLoginPage()"></router-outlet> 
   </section>
 </main>
