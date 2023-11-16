@@ -45,6 +45,7 @@ func init() {
 
 	teamMembers := []User{
 		{Name: "生田 まひろ", Email: "ikuta@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "根本 洋次郎", Email: "nemoto@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "根本 捷太郎", Email: "nemoto@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "林 琢磨", Email: "hayasi@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "楠本 泰史", Email: "kusumoto@example.com", Password: password, AdminID: &admin.ID},
