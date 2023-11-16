@@ -35,16 +35,27 @@ func init() {
 	password, _ := crypto.PasswordEncrypt("hogehoge")
 
 	admin := User{
-		Name:     "Admin User",
-		Email:    "admin@example.com",
+		Name:     "根本 洋次郎",
+		Email:    "yoni@example.com",
 		Password: password,
 		IsAdmin:  true,
 	}
 	DB.FirstOrCreate(&admin, User{Email: admin.Email})
 
 	teamMembers := []User{
-		{Name: "User One", Email: "user1@example.com", Password: password, AdminID: &admin.ID},
-		{Name: "User Two", Email: "user2@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "生田 まひろ", Email: "ikuta@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "根本 捷太郎", Email: "nemoto@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "林 琢磨", Email: "hayasi@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "楠本 泰史", Email: "kusumoto@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "桑原 将司", Email: "kuwahara@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "牧 秀吾", Email: "maki@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "宮崎 敏郎", Email: "miyazaki@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "山本 雄大", Email: "yamamoto@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "知野 直人", Email: "chino@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "関根 大気", Email: "sekine@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "伊勢 大夢", Email: "ise@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "森原 公平", Email: "morihara@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "藤田 和也", Email: "hujita@example.com", Password: password, AdminID: &admin.ID},
 	}
 	for _, member := range teamMembers {
 		DB.FirstOrCreate(&member, User{Email: member.Email})
