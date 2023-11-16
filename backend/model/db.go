@@ -36,8 +36,8 @@ func init() {
 	password, _ := crypto.PasswordEncrypt("hogehoge")
 
 	admin := User{
-		Name:     "若崎 友哉",
-		Email:    "wakasaki@example.com",
+		Name:     "根本 洋次郎",
+		Email:    "yoni@example.com",
 		Password: password,
 		IsAdmin:  true,
 	}
@@ -46,6 +46,7 @@ func init() {
 	teamMembers := []User{
 		{Name: "生田 まひろ", Email: "ikuta@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "根本 洋次郎", Email: "nemoto@example.com", Password: password, AdminID: &admin.ID},
+		{Name: "根本 捷太郎", Email: "nemoto@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "林 琢磨", Email: "hayasi@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "楠本 泰史", Email: "kusumoto@example.com", Password: password, AdminID: &admin.ID},
 		{Name: "桑原 将司", Email: "kuwahara@example.com", Password: password, AdminID: &admin.ID},

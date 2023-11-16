@@ -29,8 +29,8 @@ func CreateKintaiLog(c echo.Context) error {
 	kintaiLog.UserID = user.ID
 
 	kintaiLogs := []model.KintaiLog{}
-	
-	if err := model.DB.Find(&kintaiLogs, "user_id = ?", user.ID).Error; err != nil {
+
+  if err := model.DB.Find(&kintaiLogs, "user_id = ?", user.ID).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	nowStatus := ""
@@ -60,7 +60,6 @@ func GetKintaiLogs(c echo.Context) error {
 
 	var res ResJson
 
-
 	var logs []LogTime
 	kintaiLogs := []model.KintaiLog{}
 	
@@ -71,7 +70,7 @@ func GetKintaiLogs(c echo.Context) error {
 	var dif time.Duration = 0
 	var nanosecondsNow time.Duration
 	for _, log := range kintaiLogs {
-		if (log.Status == "Active") {
+		if log.Status == "Active" {
 			logTime.ArrivalTime = log.LogTime
 		} else {
 			logTime.ReturnTime = log.LogTime

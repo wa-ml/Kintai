@@ -12,5 +12,5 @@ type User struct {
 	IsAdmin  bool   `gorm:"default:false"`
 	AdminID  *uint
 	Team     []User `gorm:"foreignkey:AdminID"`
-	Logs	 []KintaiLog
+	Logs     []KintaiLog
 }

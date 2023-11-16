@@ -14,4 +14,8 @@ export class AuthGuard implements CanActivate {
     }
     return true;
   }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
 }
