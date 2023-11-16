@@ -89,20 +89,40 @@ func GetKintaiLogs(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-// func UpdateUser(c echo.Context) error {
-// 	user := model.User{}
-// 	if err := c.Bind(&user); err != nil {
-// 		return err
-// 	}
-// 	model.DB.Save(&user)
-// 	return c.JSON(http.StatusOK, user)
-// }
+func GetKintaiLogsForAdmin(c echo.Context) error {
+	user := CurrentUser(c)
+	if !user.IsAdmin {
+		return c.String(http.StatusBadRequest, "権限がありません")
+	}
 
-// func DeleteUser(c echo.Context) error {
-// 	user := model.User{}
-// 	if err := c.Bind(&user); err != nil {
-// 		return err
-// 	}
-// 	model.DB.Delete(&user)
-// 	return c.JSON(http.StatusOK, user)
-// }
+	userID := c.Param("userID")
+	var res ResJson
+
+
+	var logs []LogTime
+	kintaiLogs := []model.KintaiLog{}
+	
+	if err := model.DB.Find(&kintaiLogs, "user_id = ?", userID).Error; err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	var logTime LogTime
+	var dif time.Duration = 0
+	var nanosecondsNow time.Duration
+	for _, log := range kintaiLogs {
+		if (log.Status == "Active") {
+			logTime.ArrivalTime = log.LogTime
+		} else {
+			logTime.ReturnTime = log.LogTime
+			logs = append(logs, logTime)
+			dif = logTime.ReturnTime.Sub(logTime.ArrivalTime)
+			nanosecondsNow += dif
+		}
+	}
+
+	nanosecondsPerHour := int64(3600 * 1e9)
+	hours := float64(nanosecondsNow) / float64(nanosecondsPerHour)
+	res.TotalTime = hours
+	res.LogTimes = logs
+	
+	return c.JSON(http.StatusOK, res)
+}

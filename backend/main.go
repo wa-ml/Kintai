@@ -47,6 +47,7 @@ func main() {
 
 	r.POST("/kintaiLog", controller.CreateKintaiLog)
 	r.GET("/kintaiLog", controller.GetKintaiLogs)
+	r.GET("/kintaiLog/:userID", controller.GetKintaiLogsForAdmin)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
