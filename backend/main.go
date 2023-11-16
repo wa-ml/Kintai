@@ -45,5 +45,8 @@ func main() {
 	r.PUT("/user", controller.UpdateUser)
 	// r.DELETE("/users/:id", controller.DeleteUser)
 
+	r.POST("/kintaiLog", controller.CreateKintaiLog)
+	r.GET("/kintaiLog", controller.GetKintaiLogs)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }

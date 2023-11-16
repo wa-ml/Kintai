@@ -30,6 +30,7 @@ func init() {
 	}
 
 	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(&KintaiLog{})
 
 	//初期データ投入
 	password, _ := crypto.PasswordEncrypt("hogehoge")
