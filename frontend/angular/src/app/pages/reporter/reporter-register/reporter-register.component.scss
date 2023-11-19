@@ -1,0 +1,14 @@
+/* styles.css もしくは任意のスタイルシートファイルに追加 */
+.centered-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.btn-outline-info {
+  width: 200px; /* ボタンの幅を調整 */
+  height: 200px; /* ボタンの高さを調整 */
+  border-radius: 50%; /* 丸い形にする */
+  font-size: 36px; /* ボタンのフォントサイズを調整 */
+}

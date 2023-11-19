@@ -45,6 +45,11 @@ import { UserRegisterComponent } from './pages/admin/user-register/user-register
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterCompleteComponent } from './pages/admin/register-complete/register-complete.component';
+import { ReporterRecordComponent } from './pages/reporter/reporter-record/reporter-record.component';
+import { ReporterSidebarComponent } from './pages/reporter/reporter-sidebar/reporter-sidebar.component';
+import { ReporterHeaderComponent } from './pages/reporter/reporter-header/reporter-header.component';
+import { ReporterRegisterComponent } from './pages/reporter/reporter-register/reporter-register.component';
+import { UserDetailComponent } from './pages/admin/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,12 @@ import { RegisterCompleteComponent } from './pages/admin/register-complete/regis
     UserListComponent,
     SidebarComponent,
     LoginComponent,
-    RegisterCompleteComponent
+    RegisterCompleteComponent,
+    ReporterRecordComponent,
+    ReporterSidebarComponent,
+    ReporterHeaderComponent,
+    ReporterRegisterComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
