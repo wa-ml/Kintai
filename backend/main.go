@@ -43,14 +43,11 @@ func main() {
 	r.GET("/check", controller.CheckAdmin)
 	r.GET("/user", controller.GetUser)
 	r.PUT("/user", controller.UpdateUser)
-
-	r.POST("/kintaiLog", controller.CreateKintaiLog)
-	r.GET("/kintaiLog", controller.GetKintaiLogs)
 	// r.DELETE("/users/:id", controller.DeleteUser)
 
 	r.POST("/kintaiLog", controller.CreateKintaiLog)
 	r.GET("/kintaiLog", controller.GetKintaiLogs)
 	r.GET("/kintaiLog/:userID", controller.GetKintaiLogsForAdmin)
-
+	r.GET("/check_kintai_status", controller.CheckStatus)
 	e.Logger.Fatal(e.Start(":8080"))
 }

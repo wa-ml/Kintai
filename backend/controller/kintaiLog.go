@@ -1,20 +1,21 @@
 package controller
 
 import (
-	"net/http"
 	"backend/model"
-	"github.com/labstack/echo/v4"
+	"net/http"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 type LogTime struct {
 	ArrivalTime time.Time `json:"arrival_time"`
-	ReturnTime 	time.Time `json:"return_time"`
+	ReturnTime  time.Time `json:"return_time"`
 }
 
 type ResJson struct {
-	LogTimes	[]LogTime
-	TotalTime	float64
+	LogTimes  []LogTime
+	TotalTime float64
 }
 
 // for Admin
@@ -30,7 +31,7 @@ func CreateKintaiLog(c echo.Context) error {
 
 	kintaiLogs := []model.KintaiLog{}
 
-  if err := model.DB.Find(&kintaiLogs, "user_id = ?", user.ID).Error; err != nil {
+	if err := model.DB.Find(&kintaiLogs, "user_id = ?", user.ID).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	nowStatus := ""
@@ -44,7 +45,7 @@ func CreateKintaiLog(c echo.Context) error {
 		kintaiLog.Status = "Active"
 	}
 
-	jst := time.FixedZone("Asia/Tokyo", 9*60*60);
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 	nowJST := time.Now().UTC().In(jst)
 	kintaiLog.LogTime = nowJST
 
@@ -62,7 +63,7 @@ func GetKintaiLogs(c echo.Context) error {
 
 	var logs []LogTime
 	kintaiLogs := []model.KintaiLog{}
-	
+
 	if err := model.DB.Find(&kintaiLogs, "user_id = ?", user.ID).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -84,7 +85,7 @@ func GetKintaiLogs(c echo.Context) error {
 	hours := float64(nanosecondsNow) / float64(nanosecondsPerHour)
 	res.TotalTime = hours
 	res.LogTimes = logs
-	
+
 	return c.JSON(http.StatusOK, res)
 }
 
@@ -97,10 +98,9 @@ func GetKintaiLogsForAdmin(c echo.Context) error {
 	userID := c.Param("userID")
 	var res ResJson
 
-
 	var logs []LogTime
 	kintaiLogs := []model.KintaiLog{}
-	
+
 	if err := model.DB.Find(&kintaiLogs, "user_id = ?", userID).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -108,7 +108,7 @@ func GetKintaiLogsForAdmin(c echo.Context) error {
 	var dif time.Duration = 0
 	var nanosecondsNow time.Duration
 	for _, log := range kintaiLogs {
-		if (log.Status == "Active") {
+		if log.Status == "Active" {
 			logTime.ArrivalTime = log.LogTime
 		} else {
 			logTime.ReturnTime = log.LogTime
@@ -122,6 +122,17 @@ func GetKintaiLogsForAdmin(c echo.Context) error {
 	hours := float64(nanosecondsNow) / float64(nanosecondsPerHour)
 	res.TotalTime = hours
 	res.LogTimes = logs
-	
+
 	return c.JSON(http.StatusOK, res)
+}
+
+func CheckStatus(c echo.Context) error {
+	user := CurrentUser(c)
+	last_log := model.KintaiLog{}
+
+	result := model.DB.Where("user_id = ?", user.ID).Order("log_time desc").First(&last_log)
+	if result.Error != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, result.Error.Error())
+	}
+	return c.JSON(http.StatusOK, last_log.Status)
 }
