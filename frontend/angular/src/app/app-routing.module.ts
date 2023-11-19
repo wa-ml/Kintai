@@ -6,6 +6,7 @@ import { RegisterCompleteComponent } from './pages/admin/register-complete/regis
 import { LoginComponent } from './pages/login/login.component';
 import { ReporterRecordComponent } from './pages/reporter/reporter-record/reporter-record.component';
 import { ReporterRegisterComponent } from './pages/reporter/reporter-register/reporter-register.component';
+import { UserDetailComponent } from './pages/admin/user-detail/user-detail.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: "record", component: ReporterRecordComponent, canActivate: [AuthGuard], title: "報告者画面" },
   { path: "register", component: ReporterRegisterComponent, canActivate: [AuthGuard], title: "報告者画面" },
   { path: "admin/reporters", component: UserListComponent, canActivate: [AuthGuard], title: "管理者画面" },
+  { path: "admin/reporters/:id", component: UserDetailComponent, canActivate: [AuthGuard], title: "管理者画面" },
   { path: "admin/register", component: UserRegisterComponent, canActivate: [AuthGuard], title: "管理者画面" },
   { path: "admin/complete", component: RegisterCompleteComponent, canActivate: [AuthGuard], title: "管理者画面" }
 ];

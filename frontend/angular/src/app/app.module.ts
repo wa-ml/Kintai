@@ -49,6 +49,7 @@ import { ReporterRecordComponent } from './pages/reporter/reporter-record/report
 import { ReporterSidebarComponent } from './pages/reporter/reporter-sidebar/reporter-sidebar.component';
 import { ReporterHeaderComponent } from './pages/reporter/reporter-header/reporter-header.component';
 import { ReporterRegisterComponent } from './pages/reporter/reporter-register/reporter-register.component';
+import { UserDetailComponent } from './pages/admin/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ReporterRegisterComponent } from './pages/reporter/reporter-register/re
     ReporterRecordComponent,
     ReporterSidebarComponent,
     ReporterHeaderComponent,
-    ReporterRegisterComponent
+    ReporterRegisterComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
