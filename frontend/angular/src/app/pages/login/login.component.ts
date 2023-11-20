@@ -34,7 +34,7 @@ export class LoginComponent {
           this.router.navigate(['/admin/reporters']);
         // 報告者側のログイン
         } else {
-          this.router.navigate(['/reporter']);
+          this.router.navigate(['/record']);
         }
       },(err) => {
         this.loginData.errMessage = "サーバ側のエラーが発生しました。"
