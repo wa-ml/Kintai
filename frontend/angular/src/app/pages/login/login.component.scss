@@ -1,0 +1,15 @@
+.bg-image {
+  background-image: url('../../../assets/login-background.jpeg');
+  height: 35vh;
+}
+
+.card {
+  margin-top: -10vh;
+  background: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(30px);
+}
+
+.form-outline {
+  border-radius: 0.3rem;
+  border: 1px solid gray;
+}

@@ -1,0 +1,29 @@
+<div class="container list-group list-group-light">
+  <h1>ユーザー一覧</h1>
+  <div *ngFor="let reporter of getPageItems()" class="mb-3">
+    <div class="card" style="width: 90%;">
+      <div class="card-body">
+        <h3 class="card-title">{{ reporter.Name }}</h3>
+        <h4 class="card-subtitle">Email: {{ reporter.Email }}</h4>
+        <h5 class="card-subtitle mb-2 text-muted">大学院生</h5>
+        <p class="card-text">今月は毎日来ています。</p>
+        <a [routerLink]="['/admin/reporters', reporter.ID]" class="card-link">詳細へ</a>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="...">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="onPageChange(currentPage - 1)">Previous</a>
+      </li>
+      <li class="page-item" *ngFor="let pageNumber of getPageNumbers()">
+        <a class="page-link" [class.active]="currentPage === pageNumber" (click)="onPageChange(pageNumber)">
+          {{ pageNumber }}
+        </a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages()">
+        <a class="page-link" (click)="onPageChange(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>

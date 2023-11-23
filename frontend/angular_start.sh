@@ -3,7 +3,7 @@
 # /codeがDockerfileのWORKDIR
 cd frontend
 # node/modules内のアプリケーションをインストールする
-npm install --location=global
-npm install --dev-server @angular-devkit/build-angular
+npm install
+
 # 起動
-ng serve --host=0.0.0.0 --poll=1000
+ng serve --host=0.0.0.0 --poll=2000
